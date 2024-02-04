@@ -23,9 +23,9 @@ Route::get('/register', function () {
     return view('user.create');
 });
 
-Route::get('/', function () {
-    return view('user.login');
-});
+Route::get('/',[UserController::class, 'validateAndRoute']);
+
+Route::post('/logout',[UserController::class, 'logout']);
 
 Route::get('/api/register', 'App\Http\Controllers\UserController@store');
 

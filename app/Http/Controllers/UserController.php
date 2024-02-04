@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\UserVander;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Illuminate\Support\Str;
@@ -191,16 +192,31 @@ class UserController extends Controller
            ->route("user.create")
            ->withErrors('Errore durante il rollback');
         }
-        return redirect()
-            ->route("user.index")
-            ->with("success", "Utente Registrato");
-    }
+
+            $response = new \Illuminate\Http\Response(redirect() 
+            ->route("user.index") 
+            ->with("success", "Utente Registrato"));
+
+            $response->withCookie(cookie('userId', $id));
+            return $response;
+        }
 
     /**
      * Display the specified resource.
      */
     public function show(UserVander $userVander)
     {
+    }
+
+    public function logout(Request $request)
+    {
+
+
+        $response = new \Illuminate\Http\Response(redirect('/login') ->with("success", "Utente Sloggato"));
+
+            $response->withCookie(cookie('userId', null));
+            return $response;
+        ;
     }
 
     public function find(Request $request)
@@ -218,13 +234,32 @@ class UserController extends Controller
         }
 
         if ($checkUser != null && $checkUser->isNotEmpty()) {
-            return redirect()
-                ->route("user.index")
-                ->with("success", "Utente Loggato");
+            $response = new \Illuminate\Http\Response(redirect('/user') ->with("success", "Utente Loggato"));
+
+            $response->withCookie(cookie('userId', $checkUser[0] -> Id));
+            return $response;
+                
         } else {
             return redirect('/login')
             ->withErrors('Email e password non corrette');
                 
+        }
+    }
+
+    public function validateAndRoute() {
+        $checkUser = null;
+        try {
+            $checkUser = DB::table("users")
+                ->where("Id", $_COOKIE['userId'])
+                ->get();
+
+        return $checkUser -> isNotEmpty() && $_COOKIE['userId'] == $checkUser[0] -> Id ? 
+        redirect() ->route("user.index") : 
+        redirect('/login');
+
+        } catch (e) {
+            return redirect('/login')
+           ->withErrors('Errore durante la validazione');
         }
     }
 
@@ -251,4 +286,6 @@ class UserController extends Controller
     {
         //
     }
+
+
 }

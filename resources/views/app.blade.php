@@ -19,8 +19,7 @@
         </style>
     </head>
     <body class="antialiased">
-        
-        <div class='content-page'>
+        <div class='content-page' >
            <table class='table'>
             <tr class="t-row">
                 <th>Nome</th>
@@ -35,8 +34,20 @@
 
             </tr>
            @endforeach
+           <tr  class="t-row">
+            <td class="logout"><div>
+                <a href="javascript:void" onclick="document.getElementById('logout-form').submit();">
+                 Logout
+                 </a>
+             
+             <form id="logout-form" action="/logout" method="POST" style="display: none;">
+                 @csrf
+             </form>
+         </div></td>
+           </tr>
            </table>
-
+           
         </div>
+        
     </body>
 </html>

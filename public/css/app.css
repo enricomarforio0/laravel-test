@@ -63,3 +63,7 @@
 .error-box {
     background-color: red;
 }
+
+.logout {
+    border: none !important;
+}
