@@ -2,6 +2,7 @@
     width: 100vw;
     height: 100vh;
     display: flex;
+    justify-content: center;
 }
 
 .form {
@@ -33,4 +34,32 @@
 .form>button:hover {
     background-color: rgb(38, 202, 235);
     color: black;
+}
+
+.table {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    width: 40vw;
+    row-gap: 30px;
+    padding: 50px;
+    border-radius: 5px;
+    box-shadow: 3px 3px 10px #000000;
+
+}
+
+.t-row {
+    justify-content: center;
+    display: flex;
+}
+
+
+.table td, .table th {
+    width: 33%;
+    text-align: center;
+    border: 1px solid black;
+}
+
+.error-box {
+    background-color: red;
 }

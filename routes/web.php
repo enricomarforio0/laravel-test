@@ -14,12 +14,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/login', function () {
-    return view('login');
+    return view('user.login');
 });
 
 Route::get('/register', function () {
-    return view('register');
+    return view('user.create');
 });
+
+Route::get('/', function () {
+    return view('user.login');
+});
+
+Route::get('/api/register', 'App\Http\Controllers\UserController@store');
+
+Route::get('/api/login', 'App\Http\Controllers\UserController@find');
 
 Route::resource('user', UserController::class);
